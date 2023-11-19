@@ -1,0 +1,35 @@
+
+[
+    {
+      "imageUri": "https://www.collinsdictionary.com/images/full/tomato_281240360.jpg",
+      "name": "Tomato",
+      "quantity": "10 kg",
+      "minQuantity": "5 kg",
+      "price": "20tk/kg",
+      "bidStarts": "9:30 AM, 12th Nov",
+      "bidEnds": "10 AM, 13th Nov",
+      "farmerName": "Siam Sarker"
+    },
+    {
+        "imageUri": "https://www.collinsdictionary.com/images/full/tomato_281240360.jpg",
+        "name": "Tomato",
+        "quantity": "10 kg",
+        "minQuantity": "5 kg",
+        "price": "20tk/kg",
+        "bidStarts": "9:30 AM, 12th Nov",
+        "bidEnds": "10 AM, 13th Nov",
+        "farmerName": "Siam Sarker"
+      },
+      {
+        "imageUri": "https://www.collinsdictionary.com/images/full/tomato_281240360.jpg",
+        "name": "Tomato",
+        "quantity": "10 kg",
+        "minQuantity": "5 kg",
+        "price": "20tk/kg",
+        "bidStarts": "9:30 AM, 12th Nov",
+        "bidEnds": "10 AM, 13th Nov",
+        "farmerName": "Siam Sarker"
+      }
+ 
+  ]
+  

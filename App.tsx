@@ -9,6 +9,7 @@ import NationalizePage from "./src/pages/NationalizePage";
 import ProfilePage from "./src/pages/Profile/ProfilePage";
 import UserAccessScreen from "./src/pages/UserAccess/UserAccessScreen";
 import ProductsPage from "./src/pages/Products/ProductsPage";
+import BidRoomPage from "./src/pages/BidRoom/BidRoomPage";
 import { Button, View } from "react-native";
 
 const Stack = createStackNavigator();
@@ -62,7 +63,7 @@ const App = () => {
             }}
           >
             <BottomTab.Screen name="Products" children={() => <BasicDashboardScreen setIsAuthenticated={setIsAuthenticated} />} />
-            <BottomTab.Screen name="Bid Room" component={SettingsPage} />
+            <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
             <BottomTab.Screen name="Cart" component={NationalizePage} />
             <BottomTab.Screen name="Profile" children={() => <ProfilePage setIsAuthenticated={setIsAuthenticated} />} />
           </BottomTab.Navigator>
