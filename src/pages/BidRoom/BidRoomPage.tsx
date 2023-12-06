@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Image, Text, View, StyleSheet, ScrollView } from "react-native";
 import axios from "axios";
 
-import bidRoomJson from "./../../../assets/data/BidRoomData.json";
+import bidRoomJson from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/bidRoomData.json";
 
 const BidRoomPage = (props: any) => {
     const [bidRoomData, setBidRoomData] = useState(bidRoomJson);

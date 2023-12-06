@@ -37,7 +37,7 @@ const BasicDashboardScreen: React.FC<BasicDashboardScreenProps> = ({ setIsAuthen
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name='Products' component={ProductsPage} />
     <Stack.Screen name='Profile' component={ProfilePage} />
-    <Stack.Screen name='Counter' component={CounterPage} />
+    <Stack.Screen name='Cart' component={CounterPage} />
     <Stack.Screen name='AuthFlow' component={AuthFlow} options={{ headerShown: true, title: 'Login' }} />
   </Stack.Navigator>
 );

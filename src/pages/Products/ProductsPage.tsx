@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Text, View, StyleSheet, Image, ScrollView } from "react-native";
 import axios from "axios";
 
-import productsData from "./../../../assets/data/products.json";
+import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
 
 const ProductsPage = (props: any) => {
 
