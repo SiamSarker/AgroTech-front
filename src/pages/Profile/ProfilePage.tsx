@@ -1,15 +1,23 @@
 import React from "react";
 import { Button, Image, Text, View, StyleSheet } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ProfilePage = ({ navigation, setIsAuthenticated }: any) => {
   const navHandler = () => {
     navigation.navigate("Counter");
   };
 
-  const logoutHandler = () => {
-    // Assuming you have a function to handle logout
-    // You can perform any necessary cleanup here
-    setIsAuthenticated(false);
+  const logoutHandler = async ()  => {
+    
+    try {
+      
+      // Clear user data from AsyncStorage
+      await AsyncStorage.removeItem('userData');
+      setIsAuthenticated(false);
+
+    } catch (error: any) {
+      console.error('Error clearing user data from AsyncStorage:', error.message);
+    }
   };
 
   return (
