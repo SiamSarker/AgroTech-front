@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -8,12 +8,28 @@ import NationalizePage from "./src/pages/NationalizePage";
 import ProfilePage from "./src/pages/Profile/ProfilePage";
 import LoginPage from "./src/pages/UserAccess/LoginPage";
 import SignUpPage from "./src/pages/UserAccess/SignUpPage";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkUserAuthentication = async () => {
+      try {
+        const userDataString = await AsyncStorage.getItem('userData');
+        if (userDataString) {
+          setIsAuthenticated(true);
+        }
+      } catch (error: any) {
+        console.error('Error checking user authentication:', error.message);
+      }
+    };
+
+    checkUserAuthentication();
+  }, []);
 
   return (
     <NavigationContainer>

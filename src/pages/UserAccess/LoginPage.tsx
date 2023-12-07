@@ -45,9 +45,17 @@ const LoginPage: React.FC<LoginPageProps> = ({
           if (userData && userData.id && userData.username && userData.email) {
             console.log('Login successful!');
             console.log('User Data:', userData);
+
+            const userDataToStore = {
+                username: userData?.username,
+                email: userData?.email,
+                role: userData?.role,
+                phone: userData?.phone,
+                address: userData?.address,
+              };
       
             // Store user data in local storage
-            await AsyncStorage.setItem('userData', JSON.stringify(userData));
+            await AsyncStorage.setItem('userData', JSON.stringify(userDataToStore));
       
             setIsAuthenticated(true);
     

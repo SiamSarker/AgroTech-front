@@ -1,12 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { Button, Text, View, StyleSheet, Image, ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-
 import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
+
+const defaultUser = {
+  username: "Default User",
+  email: "",
+  role: "default",
+  phone: "1234",
+  address: "Dhaka",
+};
 
 const ProductsPage = (props: any) => {
 
     const [products, setProducts] = useState(productsData);
+    const [user, setUser] = useState(defaultUser);
+
+    useEffect(() => {
+      const fetchUserData = async () => {
+        try {
+          const userDataString = await AsyncStorage.getItem('userData');
+          if (userDataString) {
+            const userData = JSON.parse(userDataString);
+            setUser(userData);
+          }
+        } catch (error: any) {
+          console.error('Error fetching user data from AsyncStorage:', error.message);
+        }
+      };
+  
+      fetchUserData();
+    }, []);
 
   return (
     <ScrollView style={styles.container}>
@@ -24,8 +49,8 @@ const ProductsPage = (props: any) => {
 
         {/* User Information */}
         <View style={styles.userInfoContainer}>
-          <Text style={styles.userName}>Siam Sarker</Text>
-          <Text style={styles.userType}>Buyer</Text>
+          <Text style={styles.userName}>{user?.username}</Text>
+          <Text style={styles.userType}>{user?.role}</Text>
         </View>
 
         {/* Logo (Add your actual logo source) */}
