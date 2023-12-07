@@ -17,7 +17,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('http://localhost:3000/user/create', {
+      const response = await axios.post('http://192.168.0.110:3000/user/create', {
         email,
         username,
         password,
