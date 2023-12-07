@@ -18,13 +18,7 @@ const App = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <BottomTab.Navigator
-          // tabBarOptions={{
-          //   activeTintColor: "green",
-          //   inactiveTintColor: "red",
-          //   style: { backgroundColor: "#f2f2f2" },
-          // }}
-        >
+        <BottomTab.Navigator>
           <BottomTab.Screen name="Products" component={ProductsPage} />
           <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
           <BottomTab.Screen name="Cart" component={NationalizePage} />

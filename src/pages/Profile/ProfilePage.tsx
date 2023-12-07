@@ -8,9 +8,7 @@ const ProfilePage = ({ navigation, setIsAuthenticated }: any) => {
   };
 
   const logoutHandler = async ()  => {
-    
     try {
-      
       // Clear user data from AsyncStorage
       await AsyncStorage.removeItem('userData');
       setIsAuthenticated(false);
