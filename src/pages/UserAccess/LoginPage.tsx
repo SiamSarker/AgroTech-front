@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Alert } from 'react-native';
 import {
   View,
   Text,
@@ -26,6 +27,14 @@ const LoginPage: React.FC<LoginPageProps> = ({
 
   const handleLogin = async () => {
     try {
+
+        if (!email || !password) {
+            console.error('Email and password are required');
+            // You might want to display an error message to the user
+            Alert.alert('Error', 'Email and password are required');
+            return;
+          }
+
         const response = await axios.post('http://localhost:3000/user/login', {
             email,
             password,
@@ -44,9 +53,11 @@ const LoginPage: React.FC<LoginPageProps> = ({
     
           } else {
             console.error('Login failed. Invalid response format.');
+            Alert.alert('Error', 'Login failed. Invalid email and password.');
           }
     } catch (error: any) {
-      console.error("Error during login:", error.message)
+      console.error("Error during login:", error.message);
+      Alert.alert('Error', 'Error during login. Please try again.');
     }
   };
 
@@ -64,7 +75,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
       {/* Buyer Login */}
       <Text style={styles.title}>User Login</Text>
 
-      {/* Username Input */}
+      {/* Email Input */}
       <TextInput
         style={styles.input}
         placeholder="Email Address"
