@@ -28,6 +28,7 @@ const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
         console.log('User Data:', userData);
 
         const userDataToStore = {
+          id: userData?.id,
           username: userData?.username,
           email: userData?.email,
           role: userData?.role,
