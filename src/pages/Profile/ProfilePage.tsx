@@ -1,15 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Image, Text, View, StyleSheet } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const defaultUser = {
+  username: "",
+  email: "",
+  role: "",
+  phone: "",
+  address: "",
+};
 
 const ProfilePage = ({ navigation, setIsAuthenticated }: any) => {
+
+  const [user, setUser] = useState(defaultUser);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userDataString = await AsyncStorage.getItem('userData');
+        if (userDataString) {
+          const userData = JSON.parse(userDataString);
+          setUser(userData);
+        }
+      } catch (error: any) {
+        console.error('Error fetching user data from AsyncStorage:', error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+
   const navHandler = () => {
     navigation.navigate("Counter");
   };
 
-  const logoutHandler = () => {
-    // Assuming you have a function to handle logout
-    // You can perform any necessary cleanup here
-    setIsAuthenticated(false);
+  const logoutHandler = async ()  => {
+    try {
+      // Clear user data from AsyncStorage
+      await AsyncStorage.removeItem('userData');
+      setIsAuthenticated(false);
+
+    } catch (error: any) {
+      console.error('Error clearing user data from AsyncStorage:', error.message);
+    }
   };
 
   return (
@@ -22,13 +56,13 @@ const ProfilePage = ({ navigation, setIsAuthenticated }: any) => {
       />
 
       {/* Name and Buyer Info */}
-      <Text style={styles.nameText}>Siam Sarker</Text>
-      <Text style={styles.buyerText}>Buyer</Text>
+      <Text style={styles.nameText}>{ user?.username }</Text>
+      <Text style={styles.buyerText}>{ user?.role }</Text>
 
       {/* Contact Info */}
-      <Text style={styles.contactText}>+88018xxxxxxxx50</Text>
-      <Text style={styles.contactText}>sarkersiam2@gmail.com</Text>
-      <Text style={styles.contactText}>Daudkandi, Comilla</Text>
+      <Text style={styles.contactText}>+{ user?.phone }</Text>
+      <Text style={styles.contactText}>{ user?.email }</Text>
+      <Text style={styles.contactText}>{ user?.address }</Text>
 
       {/* Logout Button */}
       <View style={styles.logoutButtonContainer}>
