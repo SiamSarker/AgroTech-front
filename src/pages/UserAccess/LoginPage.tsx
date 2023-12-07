@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Alert } from 'react-native';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-
 
 const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
   const [email, setEmail] = useState("");
@@ -11,40 +10,38 @@ const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
 
   const handleLogin = async () => {
     try {
+      if (!email || !password) {
+        console.error('Email and password are required');
+        Alert.alert('Error', 'Email and password are required');
+        return;
+      }
 
-        if (!email || !password) {
-            console.error('Email and password are required');
-            Alert.alert('Error', 'Email and password are required');
-            return;
-          }
+      const response = await axios.post('http://192.168.0.110:3000/user/login', {
+        email,
+        password,
+      });
 
-        const response = await axios.post('http://192.168.0.110:3000/user/login', {
-            email,
-            password,
-          });
-      
-          const userData = response.data;
-      
-          if (userData && userData.id && userData.username && userData.email) {
-            console.log('Login successful!');
-            console.log('User Data:', userData);
+      const userData = response.data;
 
-            const userDataToStore = {
-                username: userData?.username,
-                email: userData?.email,
-                role: userData?.role,
-                phone: userData?.phone,
-                address: userData?.address,
-              };
-      
-            await AsyncStorage.setItem('userData', JSON.stringify(userDataToStore));
-      
-            setIsAuthenticated(true);
-    
-          } else {
-            console.error('Login failed. Invalid response format.');
-            Alert.alert('Error', 'Login failed. Invalid email and password.');
-          }
+      if (userData && userData.id && userData.username && userData.email) {
+        console.log('Login successful!');
+        console.log('User Data:', userData);
+
+        const userDataToStore = {
+          username: userData?.username,
+          email: userData?.email,
+          role: userData?.role,
+          phone: userData?.phone,
+          address: userData?.address,
+        };
+
+        await AsyncStorage.setItem('userData', JSON.stringify(userDataToStore));
+
+        setIsAuthenticated(true);
+      } else {
+        console.error('Login failed. Invalid response format.');
+        Alert.alert('Error', 'Login failed. Invalid email and password.');
+      }
     } catch (error: any) {
       console.error("Error during login:", error.message);
       Alert.alert('Error', 'Error during login. Please try again.');
@@ -62,7 +59,7 @@ const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
         resizeMode="contain"
       />
 
-      {/* Buyer Login */}
+      {/* User Login */}
       <Text style={styles.title}>User Login</Text>
 
       {/* Email Input */}
@@ -91,7 +88,9 @@ const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <View style={{ marginBottom: 10 }} />
+
+      <View style={{ marginBottom: 15 }} />
+      
       {/* Create Account Section */}
       <Text style={styles.createAccountText}>Do not have an account?</Text>
       <TouchableOpacity
@@ -117,6 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff", // White background
   },
   logo: {
     width: 100,
@@ -158,16 +158,7 @@ const styles = StyleSheet.create({
   },
   createAccountButtonText: {
     color: "green",
-  },
-  farmerLoginText: {
-    color: "black",
-    marginBottom: 10,
-  },
-  farmerLoginButton: {
-    marginBottom: 20,
-  },
-  farmerLoginButtonText: {
-    color: "green",
+    fontSize: 16,
   },
   homeViewButton: {
     position: "absolute",

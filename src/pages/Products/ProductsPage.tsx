@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Text, View, StyleSheet, Image, ScrollView } from "react-native";
+import {
+  Button,
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
 import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
 
 const defaultUser = {
@@ -13,36 +20,38 @@ const defaultUser = {
 };
 
 const ProductsPage = (props: any) => {
+  const [products, setProducts] = useState(productsData);
+  const [user, setUser] = useState(defaultUser);
 
-    const [products, setProducts] = useState(productsData);
-    const [user, setUser] = useState(defaultUser);
-
-    useEffect(() => {
-      const fetchUserData = async () => {
-        try {
-          const userDataString = await AsyncStorage.getItem('userData');
-          if (userDataString) {
-            const userData = JSON.parse(userDataString);
-            setUser(userData);
-          }
-        } catch (error: any) {
-          console.error('Error fetching user data from AsyncStorage:', error.message);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userDataString = await AsyncStorage.getItem("userData");
+        if (userDataString) {
+          const userData = JSON.parse(userDataString);
+          setUser(userData);
         }
-      };
-  
-      fetchUserData();
-    }, []);
+      } catch (error: any) {
+        console.error(
+          "Error fetching user data from AsyncStorage:",
+          error.message
+        );
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
-    <ScrollView style={styles.container}>
-
-       
-
+    <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
       {/* Profile Section */}
       <View style={styles.profileContainer}>
-        {/* Profile Picture (Add your actual profile picture source) */}
+        {/* Profile Picture */}
         <Image
-          source={{ uri: 'https://miro.medium.com/v2/resize:fit:2400/2*2TXYxlwIpt5W_5RgDvvT5w.jpeg' }}
+          source={{
+            uri:
+              "https://miro.medium.com/v2/resize:fit:2400/2*2TXYxlwIpt5W_5RgDvvT5w.jpeg",
+          }}
           style={styles.profileImage}
           resizeMode="cover"
         />
@@ -53,47 +62,55 @@ const ProductsPage = (props: any) => {
           <Text style={styles.userType}>{user?.role}</Text>
         </View>
 
-        {/* Logo (Add your actual logo source) */}
+        {/* Logo */}
         <Image
-          source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_pgM83QCuGt28zGxLoi1EtOKq0UfegvRdAvndqSJ-bkT-o3jlQ8KY414f0OCRxrj3PrE&usqp=CAU' }}
+          source={{
+            uri:
+              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_pgM83QCuGt28zGxLoi1EtOKq0UfegvRdAvndqSJ-bkT-o3jlQ8KY414f0OCRxrj3PrE&usqp=CAU",
+          }}
           style={styles.logo}
           resizeMode="contain"
         />
       </View>
 
-       {/* Products Section */}
-       <View style={styles.productsContainer}>
+      {/* Products Section */}
+      <View style={styles.productsContainer}>
         <Text style={styles.sectionTitle}>Products</Text>
 
-      {/* Product Boxes */}
-        {/* Dynamically render product boxes based on the loaded data */}
+        {/* Product Boxes */}
         {products.map((product, index) => (
-          <View style={styles.productBox} key={index}>
+          <TouchableOpacity
+            key={index}
+            style={styles.productBox}
+            onPress={() => console.log(`Product ${index + 1} pressed`)}
+          >
+            {/* Product Image */}
             <View style={styles.productImageContainer}>
-              {/* Product Image (Add your actual product image source) */}
               <Image
                 source={{ uri: product.imageUri }}
                 style={styles.productImage}
                 resizeMode="cover"
               />
             </View>
+
+            {/* Product Information */}
             <View style={styles.productInfoContainer}>
               <Text style={styles.productInfoTextBold}>Name: {product.name}</Text>
-              <Text style={styles.productInfoTextBold}>Available Quantity: {product.quantity}</Text>
-              <Text style={styles.productInfoTextBold}>Price: {product.price}</Text>
-              <Text style={styles.productInfoTextBold}>Added In: {product.addedIn}</Text>
-              <Text style={styles.productInfoTextBold}>Farmer Name: {product.farmerName}</Text>
+              <Text>Available Quantity: {product.quantity}</Text>
+              <Text>Price: {product.price}</Text>
+              <Text>Added In: {product.addedIn}</Text>
+              <Text>Farmer Name: {product.farmerName}</Text>
               <Button
                 title="Add to Cart"
                 color="red"
-                // onPress={() => /* Add to cart logic */}
+                onPress={() =>
+                  console.log(`Add to Cart pressed for Product ${index + 1}`)
+                }
               />
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
-
-    </View>
-
+      </View>
     </ScrollView>
   );
 };
@@ -101,13 +118,27 @@ const ProductsPage = (props: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#f5f5f5", // Light gray background
     padding: 20,
   },
   profileContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginTop: 20,
+    backgroundColor: "#ffffff", // White background
+    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#dddddd", // Light gray border
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+
+    elevation: 11,
   },
   profileImage: {
     width: 50,
@@ -115,14 +146,17 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   userInfoContainer: {
+    flex: 1,
     marginLeft: 10,
   },
   userName: {
-    color: 'black',
-    fontWeight: 'bold',
+    color: "#333333", // Dark gray text
+    fontWeight: "bold",
+    fontSize: 16,
   },
   userType: {
-    color: 'black',
+    color: "#666666", // Medium gray text
+    fontSize: 14,
   },
   logo: {
     width: 50,
@@ -132,20 +166,33 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   sectionTitle: {
-    color: 'green',
-    fontWeight: 'bold',
+    color: "#00cc00", // Green text
+    fontWeight: "bold",
     fontSize: 20,
     marginBottom: 10,
   },
   productBox: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 20,
+    backgroundColor: "#ffffff", // White background
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#dddddd", // Light gray border
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
   },
   productImageContainer: {
     flex: 4,
   },
   productImage: {
-    width: '100%',
+    width: "100%",
     height: 100,
     borderRadius: 5,
   },
@@ -154,10 +201,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   productInfoTextBold: {
-    fontWeight: 'bold',
-  },
-  buttonContainer: {
-    marginTop: 20,
+    fontWeight: "bold",
   },
 });
 

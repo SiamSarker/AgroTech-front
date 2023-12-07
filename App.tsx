@@ -19,7 +19,9 @@ const App = () => {
   return (
     <NavigationContainer>
       {isAuthenticated ? (
-        <BottomTab.Navigator>
+        <BottomTab.Navigator
+          screenOptions={{ headerShown: false }}
+        >
           <BottomTab.Screen name="Products" component={ProductsPage} />
           <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
           <BottomTab.Screen name="Cart" component={NationalizePage} />
@@ -28,7 +30,9 @@ const App = () => {
           </BottomTab.Screen>
         </BottomTab.Navigator>
       ) : (
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{ headerShown: false }}
+        >
           <Stack.Screen name="Login">
             {(props) => <LoginPage {...props} setIsAuthenticated={setIsAuthenticated} />}
           </Stack.Screen>

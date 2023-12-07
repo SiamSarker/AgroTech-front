@@ -92,16 +92,23 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
 
       {/* Role Selection */}
       <Text style={styles.roleText}>Select Role:</Text>
-      <RadioButton.Group onValueChange={(value) => setRole(value)} value={role}>
-        <View style={styles.roleRadio}>
-          <RadioButton value="buyer" color="green" />
-          <Text style={styles.roleLabelText}>Buyer</Text>
-        </View>
-        <View style={styles.roleRadio}>
-          <RadioButton value="farmer" color="green" />
-          <Text style={styles.roleLabelText}>Farmer</Text>
-        </View>
-      </RadioButton.Group>
+      <View style={styles.roleRadioContainer}>
+        <RadioButton.Android
+          value="buyer"
+          color="green"
+          status={role === "buyer" ? "checked" : "unchecked"}
+          onPress={() => setRole("buyer")}
+        />
+        <Text style={styles.roleLabelText}>Buyer</Text>
+
+        <RadioButton.Android
+          value="farmer"
+          color="green"
+          status={role === "farmer" ? "checked" : "unchecked"}
+          onPress={() => setRole("farmer")}
+        />
+        <Text style={styles.roleLabelText}>Farmer</Text>
+      </View>
 
       {/* Sign Up Button */}
       <TouchableOpacity
@@ -111,13 +118,17 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
+      <View style={{ marginBottom: 15 }} />
+
       {/* Back to Login Page Button */}
+      <Text style={styles.roleText}>Already have an account?</Text>
       <TouchableOpacity
         style={styles.backToLoginButton}
         onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.backToLoginButtonText}>Back to Login</Text>
       </TouchableOpacity>
+
     </View>
   );
 };
@@ -127,6 +138,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#fff", // White background
   },
   logo: {
     width: 100,
@@ -163,26 +175,20 @@ const styles = StyleSheet.create({
     color: "black",
     marginBottom: 10,
   },
-
+  roleRadioContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 15,
+  },
   roleLabelText: {
     marginLeft: 10,
     color: "black",
     fontSize: 16,
   },
-
-  // Add a new style for roleRadio
-  roleRadio: {
-    flexDirection: "row", // Align radio button and text horizontally
-    alignItems: "center", // Align items in the center
-    marginBottom: 15,
-  },
-
-  // Add more styling to backToLoginButton
   backToLoginButton: {
-    marginTop: 30,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: "lightgray",
+    backgroundColor: "white",
   },
   backToLoginButtonText: {
     color: "green",
