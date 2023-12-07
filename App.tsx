@@ -16,21 +16,6 @@ const Stack = createStackNavigator();
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    const checkUserAuthentication = async () => {
-      try {
-        const userDataString = await AsyncStorage.getItem('userData');
-        if (userDataString) {
-          setIsAuthenticated(true);
-        }
-      } catch (error: any) {
-        console.error('Error checking user authentication:', error.message);
-      }
-    };
-
-    checkUserAuthentication();
-  }, []);
-
   return (
     <NavigationContainer>
       {isAuthenticated ? (
@@ -38,21 +23,15 @@ const App = () => {
           <BottomTab.Screen name="Products" component={ProductsPage} />
           <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
           <BottomTab.Screen name="Cart" component={NationalizePage} />
-          <BottomTab.Screen 
-            name="Profile" 
-            component={(props: any) => (
-              <ProfilePage {...props} setIsAuthenticated={setIsAuthenticated}/>
-            )} 
-          />
+          <BottomTab.Screen name="Profile">
+            {(props) => <ProfilePage {...props} setIsAuthenticated={setIsAuthenticated} />}
+          </BottomTab.Screen>
         </BottomTab.Navigator>
       ) : (
         <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={(props: any) => (
-              <LoginPage {...props} setIsAuthenticated={setIsAuthenticated} />
-            )}
-          />
+          <Stack.Screen name="Login">
+            {(props) => <LoginPage {...props} setIsAuthenticated={setIsAuthenticated} />}
+          </Stack.Screen>
           <Stack.Screen name="SignUp" component={SignUpPage} />
         </Stack.Navigator>
       )}

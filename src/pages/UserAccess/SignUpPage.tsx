@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { RadioButton } from 'react-native-paper'; 
-import axios from 'axios';
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from "react-native";
+import { RadioButton } from "react-native-paper";
+import axios from "axios";
+import { Alert } from "react-native";
 
 type SignUpPageProps = {
   navigation: any; // Navigation prop for navigating between screens
 };
 
 const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [role, setRole] = useState('buyer'); // Default role
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [role, setRole] = useState("buyer"); // Default role
 
   const handleSignUp = async () => {
     try {
-      const response = await axios.post('http://192.168.0.110:3000/user/create', {
-        email,
-        username,
-        password,
-        phone,
-        address,
-        role,
-      });
+      const response = await axios.post(
+        "http://192.168.0.110:3000/user/create",
+        {
+          email, username, password, phone, address, role,
+        }
+      );
 
-      console.log('Sign Up Successful:', response.data);
-      // Assume sign-up is successful and navigate back to the login page
-      navigation.navigate('Login');
+      console.log("Sign Up Successful:", response.data);
+
+      Alert.alert("Success", "Sign Up Successful", [
+        { text: "OK", onPress: () => navigation.navigate("Login") },
+      ]);
     } catch (error: any) {
-      console.error('Sign Up Failed:', error.message);
-      // Handle the error, e.g., display an error message to the user
+      console.error("Sign Up Failed:", error.message);
+      Alert.alert("Error", "Sign Up Failed. Please try again.");
     }
   };
 
@@ -40,8 +41,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
       {/* Sample Logo */}
       <Image
         source={{
-          uri:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_pgM83QCuGt28zGxLoi1EtOKq0UfegvRdAvndqSJ-bkT-o3jlQ8KY414f0OCRxrj3PrE&usqp=CAU',
+          uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_pgM83QCuGt28zGxLoi1EtOKq0UfegvRdAvndqSJ-bkT-o3jlQ8KY414f0OCRxrj3PrE&usqp=CAU",
         }}
         style={styles.logo}
         resizeMode="contain"
@@ -105,7 +105,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
 
       {/* Sign Up Button */}
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: 'green' }]}
+        style={[styles.button, { backgroundColor: "green" }]}
         onPress={handleSignUp}
       >
         <Text style={styles.buttonText}>Sign Up</Text>
@@ -114,7 +114,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
       {/* Back to Login Page Button */}
       <TouchableOpacity
         style={styles.backToLoginButton}
-        onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate("Login")}
       >
         <Text style={styles.backToLoginButtonText}>Back to Login</Text>
       </TouchableOpacity>
@@ -125,8 +125,8 @@ const SignUpPage: React.FC<SignUpPageProps> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   logo: {
     width: 100,
@@ -134,58 +134,58 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    color: 'green',
+    color: "green",
     fontSize: 20,
     marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: "80%",
     height: 40,
-    borderColor: '#888',
+    borderColor: "#888",
     borderWidth: 1,
     borderRadius: 5,
     marginBottom: 10,
     paddingLeft: 10,
   },
   button: {
-    width: '80%',
+    width: "80%",
     height: 40,
     borderRadius: 5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
   },
   roleText: {
-    color: 'black',
+    color: "black",
     marginBottom: 10,
   },
 
   roleLabelText: {
     marginLeft: 10,
-    color: 'black',
+    color: "black",
     fontSize: 16,
   },
 
   // Add a new style for roleRadio
   roleRadio: {
-    flexDirection: 'row', // Align radio button and text horizontally
-    alignItems: 'center', // Align items in the center
+    flexDirection: "row", // Align radio button and text horizontally
+    alignItems: "center", // Align items in the center
     marginBottom: 15,
   },
-  
+
   // Add more styling to backToLoginButton
   backToLoginButton: {
     marginTop: 30,
     padding: 10,
     borderRadius: 5,
-    backgroundColor: 'lightgray',
+    backgroundColor: "lightgray",
   },
   backToLoginButtonText: {
-    color: 'green',
+    color: "green",
     fontSize: 16,
   },
 });

@@ -1,27 +1,11 @@
 import React, { useState } from "react";
 import { Alert } from 'react-native';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
-type LoginPageProps = {
-  navigation: {
-    navigate: (screen: string) => void;
-  };
-  setIsAuthenticated: (value: boolean) => void;
-};
 
-const LoginPage: React.FC<LoginPageProps> = ({
-  navigation,
-  setIsAuthenticated,
-}) => {
+const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +14,6 @@ const LoginPage: React.FC<LoginPageProps> = ({
 
         if (!email || !password) {
             console.error('Email and password are required');
-            // You might want to display an error message to the user
             Alert.alert('Error', 'Email and password are required');
             return;
           }
@@ -54,7 +37,6 @@ const LoginPage: React.FC<LoginPageProps> = ({
                 address: userData?.address,
               };
       
-            // Store user data in local storage
             await AsyncStorage.setItem('userData', JSON.stringify(userDataToStore));
       
             setIsAuthenticated(true);
@@ -109,7 +91,7 @@ const LoginPage: React.FC<LoginPageProps> = ({
       >
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
-      <br />
+      <View style={{ marginBottom: 10 }} />
       {/* Create Account Section */}
       <Text style={styles.createAccountText}>Do not have an account?</Text>
       <TouchableOpacity
