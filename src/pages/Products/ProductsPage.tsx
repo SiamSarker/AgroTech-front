@@ -12,10 +12,10 @@ const defaultProduct = [
   {
       "id": 2,
       "name": "Default",
-      "img_path": "path/to/image.jpg",
-      "available_quantity": 100,
+      "img_path": "tomato",
+      "available_quantity": 32,
       "unit": "kg",
-      "price": "25.99",
+      "price": 34.3,
       "created_at": "2023-12-07T20:40:36.895Z",
       "updated_at": "2023-12-07T20:40:36.895Z",
       "farmer_id": null
