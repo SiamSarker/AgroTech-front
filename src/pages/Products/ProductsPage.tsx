@@ -96,16 +96,23 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
 
       <View style={styles.productsContainer}>
         <Text style={styles.sectionTitle}>Products</Text>
-        <Button
-          title="Create Product"
-          onPress={() => navigation.navigate("CreateProduct", { updateProducts })}
-        />
+        {user?.role === 'farmer' && (
+          <Button
+            title="Create Product"
+            onPress={() => navigation.navigate("CreateProduct", { updateProducts })}
+          />
+        )}
         {products.map((product, index) => (
           <TouchableOpacity
             key={index}
             style={styles.productBox}
-            // onPress={() => console.log(`Product ${index + 1} pressed`)}
-            onPress={() => navigation.navigate("ProductDetails", { product: product, updateProducts })}
+            onPress={() => {
+              if (user?.role === 'buyer') {
+                navigation.navigate("BuyProduct", { product, updateProducts });
+              } else if (user?.role === 'farmer') {
+                navigation.navigate("ProductDetails", { product, updateProducts });
+              }
+            }}
           >
             <View style={styles.productImageContainer}>
               <Image
@@ -126,12 +133,18 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
               <Text>Available Quantity: {product?.available_quantity}</Text>
               <Text>Price: {product?.price}</Text>
               <Text>Added In: {product?.created_at}</Text>
-              <Text>Farmer Name: {product?.farmer_id}</Text>
+              
               <Button
-                title="Add to Cart"
-                color="red"
-                onPress={() => navigation.navigate("BuyProduct", { product: product, updateProducts })}
-              />
+              title={user?.role === 'buyer' ? 'Buy' : 'Details'}
+              color="red"
+              onPress={() => {
+                if (user?.role === 'buyer') {
+                  navigation.navigate("BuyProduct", { product, updateProducts });
+                } else if (user?.role === 'farmer') {
+                  navigation.navigate("ProductDetails", { product, updateProducts });
+                }
+              }}
+            />
             </View>
           </TouchableOpacity>
         ))}
