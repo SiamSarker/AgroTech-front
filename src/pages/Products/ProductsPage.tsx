@@ -10,22 +10,22 @@ const defaultUser = {
 
 const defaultProduct = [
   {
-      "id": 2,
-      "name": "Default",
-      "img_path": "tomato",
-      "available_quantity": 32,
-      "unit": "kg",
-      "price": 34.3,
-      "created_at": "2023-12-07T20:40:36.895Z",
-      "updated_at": "2023-12-07T20:40:36.895Z",
-      "farmer_id": null
+    "id": 2,
+    "name": "Default",
+    "img_path": "tomato",
+    "available_quantity": 32,
+    "unit": "kg",
+    "price": 34.3,
+    "created_at": "2023-12-07T20:40:36.895Z",
+    "updated_at": "2023-12-07T20:40:36.895Z",
+    "farmer_id": null
   }
 ];
 
 type ProductsPageProps = {
-  navigation: any; 
+  navigation: any;
 };
-  
+
 const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
   const [products, setProducts] = useState(defaultProduct);
   const [user, setUser] = useState(defaultUser);
@@ -33,7 +33,6 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
   const updateProducts = async () => {
     try {
       const response = await Axios.get("http://192.168.0.110:3000/products");
-      console.log(response.data);
       setProducts(response.data);
     } catch (error: any) {
       console.error("Error fetching products:", error.message);
@@ -56,7 +55,6 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
     const fetchProducts = async () => {
       try {
         const response = await Axios.get("http://192.168.0.110:3000/products");
-        console.log(response.data);
         setProducts(response.data);
       } catch (error: any) {
         console.error("Error fetching products:", error.message);
@@ -70,10 +68,12 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <Button
-          onPress={() => navigation.navigate("CreateProduct")}
-          title="Create Product"
-        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CreateProduct", { updateProducts })}
+          style={styles.headerButton}
+        >
+          <Text style={styles.headerButtonText}>Create Product</Text>
+        </TouchableOpacity>
       ),
     });
   }, [navigation]);
@@ -97,32 +97,26 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
       <View style={styles.productsContainer}>
         <Text style={styles.sectionTitle}>Products</Text>
         {user?.role === 'farmer' && (
-          <Button
-            title="Create Product"
+          <TouchableOpacity
             onPress={() => navigation.navigate("CreateProduct", { updateProducts })}
-          />
+            style={styles.createProductButton}
+          >
+            <Text style={styles.createProductButtonText}>Create Product</Text>
+          </TouchableOpacity>
         )}
         {products.map((product, index) => (
           <TouchableOpacity
             key={index}
             style={styles.productBox}
             onPress={() => {
-              if (user?.role === 'buyer') {
-                navigation.navigate("BuyProduct", { product, updateProducts });
-              } else if (user?.role === 'farmer') {
-                navigation.navigate("ProductDetails", { product, updateProducts });
-              }
+              const screen = user?.role === 'buyer' ? "BuyProduct" : "ProductDetails";
+              navigation.navigate(screen, { product, updateProducts });
             }}
           >
             <View style={styles.productImageContainer}>
               <Image
                 source={{
-                  uri:
-                    product.img_path === 'tomato'
-                      ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
-                      : product.img_path === 'potato'
-                      ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
-                      : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
+                  uri: getImageUrl(product.img_path),
                 }}
                 style={styles.productImage}
                 resizeMode="cover"
@@ -133,24 +127,30 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
               <Text>Available Quantity: {product?.available_quantity}</Text>
               <Text>Price: {product?.price}</Text>
               <Text>Added In: {product?.created_at}</Text>
-              
-              <Button
-              title={user?.role === 'buyer' ? 'Buy' : 'Details'}
-              color="red"
-              onPress={() => {
-                if (user?.role === 'buyer') {
-                  navigation.navigate("BuyProduct", { product, updateProducts });
-                } else if (user?.role === 'farmer') {
-                  navigation.navigate("ProductDetails", { product, updateProducts });
-                }
-              }}
-            />
+
+              <TouchableOpacity
+              style={styles.buyButton}
+              onPress={() => navigation.navigate(user?.role === 'buyer' ? "BuyProduct" : "ProductDetails", { product, updateProducts })}
+            >
+              <Text style={styles.buyButtonText}>{user?.role === 'buyer' ? 'Buy Product' : 'Details'}</Text>
+            </TouchableOpacity>
             </View>
           </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
   );
+};
+
+const getImageUrl = (imgPath: string) => {
+  switch (imgPath) {
+    case 'tomato':
+      return 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg';
+    case 'potato':
+      return 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311';
+    default:
+      return 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg';
+  }
 };
 
 const styles = StyleSheet.create({
@@ -203,9 +203,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 10,
   },
+  createProductButton: {
+    backgroundColor: "#4CAF50",
+    padding: 10,
+    borderRadius: 5,
+    alignSelf: "flex-start",
+  },
+  createProductButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
   productBox: {
     flexDirection: "row",
-    marginBottom: 5,
+    marginBottom: 15,
     backgroundColor: "#ffffff",
     borderRadius: 10,
     borderWidth: 1,
@@ -231,6 +241,24 @@ const styles = StyleSheet.create({
   },
   productInfoTextBold: {
     fontWeight: "bold",
+  },
+  buyButton: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignSelf: "flex-start",
+  },
+  buyButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  headerButton: {
+    marginRight: 10,
+  },
+  headerButtonText: {
+    color: "#007BFF",
+    fontSize: 16,
   },
 });
 
