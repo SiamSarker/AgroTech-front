@@ -109,7 +109,14 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
           >
             <View style={styles.productImageContainer}>
               <Image
-                source={{ uri: product.img_path }}
+                source={{
+                  uri:
+                    product.img_path === 'tomato'
+                      ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
+                      : product.img_path === 'potato'
+                      ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
+                      : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
+                }}
                 style={styles.productImage}
                 resizeMode="cover"
               />

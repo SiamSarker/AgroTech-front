@@ -50,7 +50,16 @@ const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
       <Text style={styles.sectionTitle}>Shopping Cart</Text>
       {cartItems.map((item) => (
         <View key={item.id} style={styles.cartItemContainer}>
-          <Image source={{ uri: item.product.img_path }} style={styles.productImage} resizeMode="cover" />
+          <Image 
+          source={{
+            uri:
+              item.product.img_path === 'tomato'
+                ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
+                : item.product.img_path === 'potato'
+                ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
+                : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
+          }}
+          style={styles.productImage} resizeMode="cover" />
           <View style={styles.productInfoContainer}>
             <Text style={styles.productName}>{item.product.name}</Text>
             <Text>Quantity: {item.selected_quantity}</Text>
