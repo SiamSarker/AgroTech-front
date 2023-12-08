@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Button, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
+import { useNavigation } from "@react-navigation/native";
+import CreateProductPage from "./CreateProductPage";
 import Axios from "axios";
 
 const defaultUser = {
@@ -23,9 +25,23 @@ const defaultProduct = [
   }
 ];
 
-const ProductsPage = () => {
+type ProductsPageProps = {
+  navigation: any; // Navigation prop for navigating between screens
+};
+  
+const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
   const [products, setProducts] = useState(defaultProduct);
   const [user, setUser] = useState(defaultUser);
+
+  const updateProducts = async () => {
+    try {
+      const response = await Axios.get("http://192.168.0.110:3000/products");
+      console.log(response.data);
+      setProducts(response.data);
+    } catch (error: any) {
+      console.error("Error fetching products:", error.message);
+    }
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -42,7 +58,7 @@ const ProductsPage = () => {
 
     const fetchProducts = async () => {
       try {
-        const response = await Axios.get("http://192.168.41.207:3000/products");
+        const response = await Axios.get("http://192.168.0.110:3000/products");
         console.log(response.data);
         setProducts(response.data);
       } catch (error: any) {
@@ -53,6 +69,17 @@ const ProductsPage = () => {
     fetchUserData();
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate("CreateProduct")}
+          title="Create Product"
+        />
+      ),
+    });
+  }, [navigation]);
 
   return (
     <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
@@ -72,6 +99,10 @@ const ProductsPage = () => {
 
       <View style={styles.productsContainer}>
         <Text style={styles.sectionTitle}>Products</Text>
+        <Button
+          title="Create Product"
+          onPress={() => navigation.navigate("CreateProduct", { updateProducts })}
+        />
         {products.map((product, index) => (
           <TouchableOpacity
             key={index}
