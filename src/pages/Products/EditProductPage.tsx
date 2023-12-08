@@ -26,7 +26,8 @@ const EditProductPage: React.FC<EditProductPageProps> = ({ navigation, route }) 
   const [imagePath, setImagePath] = useState<string>(product.img_path);
   const [quantity, setQuantity] = useState<string>(product.available_quantity.toString());
   const [price, setPrice] = useState<string>(product.price);
-  const [farmerId, setFarmerId] = useState<number | null>(product.farmer_id);
+  const [unit, setUnit] = useState<string>("kg"); // Default unit is "kg"
+  const [farmerId] = useState<number | null>(product.farmer_id);
 
   const handleUpdate = async () => {
     try {
@@ -34,7 +35,7 @@ const EditProductPage: React.FC<EditProductPageProps> = ({ navigation, route }) 
         name: productName,
         img_path: imagePath,
         available_quantity: parseInt(quantity, 10),
-        unit: "kg", // Assuming 'unit' is always in kilograms
+        unit: unit,
         price: price,
         farmer_id: farmerId,
       });
@@ -97,22 +98,12 @@ const EditProductPage: React.FC<EditProductPageProps> = ({ navigation, route }) 
         />
       </View>
       <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Price</Text>
+        <Text style={styles.label}>Price per {product.unit}</Text>
         <TextInput
           style={styles.input}
-          placeholder="Price"
+          placeholder="Price Per unit"
           value={price}
           onChangeText={(text) => setPrice(text)}
-          keyboardType="numeric"
-        />
-      </View>
-      <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Farmer ID</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Farmer ID"
-          value={farmerId?.toString() || ""}
-          onChangeText={(text) => setFarmerId(parseInt(text, 10))}
           keyboardType="numeric"
         />
       </View>
@@ -131,7 +122,8 @@ const styles = StyleSheet.create({
     color: "#00cc00",
     fontWeight: "bold",
     fontSize: 20,
-    marginBottom: 20,
+    marginBottom: 40,
+    marginTop: 40,
   },
   fieldContainer: {
     marginBottom: 20,
