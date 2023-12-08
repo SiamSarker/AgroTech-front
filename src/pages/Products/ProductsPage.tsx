@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { Button, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
+import Axios from "axios";
 
 const defaultUser = {
   username: "Default User",
   role: "default",
 };
 
+const defaultProduct = [
+  {
+      "id": 2,
+      "name": "Product C",
+      "img_path": "path/to/image.jpg",
+      "available_quantity": 100,
+      "unit": "kg",
+      "price": "25.99",
+      "created_at": "2023-12-07T20:40:36.895Z",
+      "updated_at": "2023-12-07T20:40:36.895Z",
+      "farmer_id": null
+  }
+];
+
 const ProductsPage = () => {
-  const [products, setProducts] = useState(productsData);
+  const [products, setProducts] = useState(defaultProduct);
   const [user, setUser] = useState(defaultUser);
 
   useEffect(() => {
@@ -33,7 +40,18 @@ const ProductsPage = () => {
       }
     };
 
+    const fetchProducts = async () => {
+      try {
+        const response = await Axios.get("http://192.168.41.207:3000/products");
+        console.log(response.data);
+        setProducts(response.data);
+      } catch (error: any) {
+        console.error("Error fetching products:", error.message);
+      }
+    };
+
     fetchUserData();
+    fetchProducts();
   }, []);
 
   return (
@@ -62,17 +80,17 @@ const ProductsPage = () => {
           >
             <View style={styles.productImageContainer}>
               <Image
-                source={{ uri: product.imageUri }}
+                source={{ uri: product.img_path }}
                 style={styles.productImage}
                 resizeMode="cover"
               />
             </View>
             <View style={styles.productInfoContainer}>
-              <Text style={styles.productInfoTextBold}>Name: {product.name}</Text>
-              <Text>Available Quantity: {product.quantity}</Text>
-              <Text>Price: {product.price}</Text>
-              <Text>Added In: {product.addedIn}</Text>
-              <Text>Farmer Name: {product.farmerName}</Text>
+              <Text style={styles.productInfoTextBold}>Name: {product?.name}</Text>
+              <Text>Available Quantity: {product?.available_quantity}</Text>
+              <Text>Price: {product?.price}</Text>
+              <Text>Added In: {product?.created_at}</Text>
+              <Text>Farmer Name: {product?.farmer_id}</Text>
               <Button
                 title="Add to Cart"
                 color="red"
