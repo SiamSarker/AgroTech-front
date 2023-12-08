@@ -45,6 +45,7 @@ const CreateProductPage: React.FC<CreateProductPageProps> = ({ navigation, route
       Alert.alert("Product created successfully");
       route.params?.updateProducts && route.params?.updateProducts();
       console.log(route.params);
+      navigation.goBack();
     } catch (error: any) {
       console.error("Error creating product:", error.message);
       // Handle error, display error message, etc.

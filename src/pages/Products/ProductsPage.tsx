@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Text, View, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import productsData from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/products.json";
-import { useNavigation } from "@react-navigation/native";
-import CreateProductPage from "./CreateProductPage";
 import Axios from "axios";
 
 const defaultUser = {

@@ -46,6 +46,10 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ navigation, rou
     }
   };
 
+  const handleEditProduct = (product: Product) => {
+    navigation.navigate("EditProduct", { product, updateProducts: route.params.updateProducts });
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.productImageContainer}>
@@ -59,7 +63,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ navigation, rou
         <Text>Farmer Name: {product.farmer_id}</Text>
         {/* Add more details or actions as needed */}
         <Button title="Edit" 
-        // onPress={() => /* Navigate to Edit screen */} 
+            onPress={() => handleEditProduct(product)}
         />
         <Button title="Delete" 
             onPress={handleDeleteProduct} 
