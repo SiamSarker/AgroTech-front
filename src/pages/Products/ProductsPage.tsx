@@ -108,7 +108,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
             key={index}
             style={styles.productBox}
             // onPress={() => console.log(`Product ${index + 1} pressed`)}
-            onPress={() => navigation.navigate("ProductDetails", { product: product })}
+            onPress={() => navigation.navigate("ProductDetails", { product: product, updateProducts })}
           >
             <View style={styles.productImageContainer}>
               <Image
@@ -126,7 +126,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
               <Button
                 title="Add to Cart"
                 color="red"
-                onPress={() => navigation.navigate("ProductDetails", { product: product })}
+                onPress={() => navigation.navigate("ProductDetails", { product: product, updateProducts })}
               />
             </View>
           </TouchableOpacity>

@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, Image, Button, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Image, Button, StyleSheet, ScrollView, Alert } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import Axios from "axios";
 
 // Define the Product interface
 interface Product {
@@ -17,12 +18,33 @@ interface Product {
 
 // Define the ProductDetailsPageProps interface
 interface ProductDetailsPageProps {
-navigation: NavigationProp<any>;
-  route: RouteProp<{ params: { product: Product } }, "params">;
-}
+    navigation: NavigationProp<any>;
+    route: RouteProp<{ params: { product: Product, updateProducts: () => void } }, "params">;
+  }
+
 
 const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ navigation, route }) => {
   const { product } = route.params;
+
+  const handleDeleteProduct = async () => {
+    try {
+        console.log( product.id );
+      // Make a DELETE request to your API
+      await Axios.delete(`http://192.168.0.110:3000/products/${product.id}`);
+
+      route.params?.updateProducts && route.params?.updateProducts();
+
+      // Display success message
+      Alert.alert("Success", "Product deleted successfully");
+      
+      // Navigate back to ProductsPage
+      navigation.goBack();
+    } catch (error: any) {
+      console.error("Error deleting product:", error.message);
+      // Handle error, display error message, etc.
+      Alert.alert("Error", "Failed to delete product");
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -40,7 +62,7 @@ const ProductDetailsPage: React.FC<ProductDetailsPageProps> = ({ navigation, rou
         // onPress={() => /* Navigate to Edit screen */} 
         />
         <Button title="Delete" 
-        // onPress={() => /* Implement deletion logic */} 
+            onPress={handleDeleteProduct} 
         />
       </View>
     </ScrollView>
