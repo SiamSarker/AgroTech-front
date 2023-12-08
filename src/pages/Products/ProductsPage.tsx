@@ -208,6 +208,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     alignSelf: "flex-start",
+    marginBottom: 8,
   },
   createProductButtonText: {
     color: "#fff",

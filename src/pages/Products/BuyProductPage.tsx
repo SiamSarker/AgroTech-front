@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
-import { NavigationProp, RouteProp } from "@react-navigation/native";
+import { View, Text, Image, TextInput, Button, StyleSheet, Alert, TouchableOpacity, ScrollView } from "react-native";
 import Axios from "axios";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
 
 interface Product {
   id: number;
@@ -69,11 +69,12 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.sectionTitle}>Purchase Product</Text>
+
       <View style={styles.productImageContainer}>
-        {/* <Image 
-        source={{
+        <Image
+          source={{
             uri:
               product.img_path === 'tomato'
                 ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
@@ -81,15 +82,26 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
                 ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
                 : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
           }}
-        style={styles.productImage} resizeMode="cover" /> */}
+          style={styles.productImage}
+          resizeMode="cover"
+        />
       </View>
-      <View style={styles.productInfoContainer}>
+
+      <View style={styles.productDetailsContainer}>
         <Text style={styles.productInfoTextBold}>Name: {product.name}</Text>
         <Text>Available Quantity: {product.available_quantity}</Text>
         <Text>Price: {product.price}</Text>
         <Text>Unit: {product.unit}</Text>
         <Text>Farmer Name: {product.farmer_id}</Text>
       </View>
+
+      {totalPrice !== null && (
+        <View style={styles.totalPriceContainer}>
+          <Text style={styles.label}>Total Price:</Text>
+          <Text style={styles.totalPriceText}>{totalPrice.toFixed(2)} BDT.</Text>
+        </View>
+      )}
+
       <View style={styles.quantityContainer}>
         <Text style={styles.label}>Quantity:</Text>
         <TextInput
@@ -100,25 +112,26 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
           keyboardType="numeric"
         />
       </View>
-      {totalPrice !== null && (
-        <View style={styles.totalPriceContainer}>
-          <Text style={styles.label}>Total Price:</Text>
-          <Text style={styles.totalPriceText}>{totalPrice.toFixed(2)} USD</Text>
-        </View>
-      )}
+
       <Button
         title="Confirm Purchase"
         onPress={handleConfirmPurchase}
         disabled={!quantity || isNaN(parseInt(quantity, 10)) || parseInt(quantity, 10) <= 0}
       />
-    </View>
+
+      {/* Example of a button to navigate back to the previous screen */}
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()} // You can use other navigation functions here
+      >
+        <Text style={styles.backButtonText}>Go Back</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: "#f5f5f5",
     padding: 20,
   },
@@ -126,18 +139,20 @@ const styles = StyleSheet.create({
     color: "#00cc00",
     fontWeight: "bold",
     fontSize: 20,
+    marginTop: 40,
     marginBottom: 20,
+    textAlign: "center",
   },
   productImageContainer: {
-    flex: 4,
+    flex: 1,
+    alignItems: "center",
   },
   productImage: {
     width: "100%",
     height: 300,
     borderRadius: 5,
   },
-  productInfoContainer: {
-    flex: 6,
+  productDetailsContainer: {
     marginTop: 20,
   },
   productInfoTextBold: {
@@ -166,6 +181,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333333",
+  },
+  backButton: {
+    backgroundColor: "red",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignSelf: "center",
+  },
+  backButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
 });
 

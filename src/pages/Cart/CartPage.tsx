@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import Axios from "axios";
 
 interface CartItem {
@@ -35,7 +35,6 @@ const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
     const fetchCartItems = async () => {
       try {
         const response = await Axios.get("http://192.168.0.110:3000/cart");
-        console.log(response.data);
         setCartItems(response.data);
       } catch (error: any) {
         console.error("Error fetching cart items:", error.message);
@@ -45,21 +44,32 @@ const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
     fetchCartItems();
   }, []);
 
+  const handleCartItemPress = (productId: number) => {
+    // Navigate to the product details screen or perform other actions
+    console.log(`Product ${productId} pressed`);
+  };
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.sectionTitle}>Shopping Cart</Text>
       {cartItems.map((item) => (
-        <View key={item.id} style={styles.cartItemContainer}>
-          <Image 
-          source={{
-            uri:
-              item.product.img_path === 'tomato'
-                ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
-                : item.product.img_path === 'potato'
-                ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
-                : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
-          }}
-          style={styles.productImage} resizeMode="cover" />
+        <TouchableOpacity
+          key={item.id}
+          style={styles.cartItemContainer}
+          onPress={() => handleCartItemPress(item.product.id)}
+        >
+          <Image
+            source={{
+              uri:
+                item.product.img_path === 'tomato'
+                  ? 'https://www.collinsdictionary.com/images/full/tomato_281240360.jpg'
+                  : item.product.img_path === 'potato'
+                  ? 'https://farmfreshbangalore.com/cdn/shop/products/i6i3gdx_1500x.jpg?v=1647265311'
+                  : 'https://mzfoodtest.com/wp-content/uploads/2022/04/1-3.jpg',
+            }}
+            style={styles.productImage}
+            resizeMode="cover"
+          />
           <View style={styles.productInfoContainer}>
             <Text style={styles.productName}>{item.product.name}</Text>
             <Text>Quantity: {item.selected_quantity}</Text>
@@ -67,7 +77,7 @@ const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
             <Text>Purchase Date: {item.created_at}</Text>
             <Text style={{ fontWeight: "bold", color: getStatusColor(item.status) }}>{item.status}</Text>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );
@@ -93,6 +103,7 @@ const styles = StyleSheet.create({
     color: "#00cc00",
     fontWeight: "bold",
     fontSize: 20,
+    marginTop: 40,
     marginBottom: 20,
   },
   cartItemContainer: {
