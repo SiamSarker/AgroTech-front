@@ -123,7 +123,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
               <Button
                 title="Add to Cart"
                 color="red"
-                onPress={() => navigation.navigate("ProductDetails", { product: product, updateProducts })}
+                onPress={() => navigation.navigate("BuyProduct", { product: product, updateProducts })}
               />
             </View>
           </TouchableOpacity>

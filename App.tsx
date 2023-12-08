@@ -6,6 +6,7 @@ import ProductsPage from "./src/pages/Products/ProductsPage";
 import CreateProductPage from "./src/pages/Products/CreateProductPage";
 import ProductDetailsPage from "./src/pages/Products/ProductDetailsPage";
 import EditProductPage from "./src/pages/Products/EditProductPage";
+import BuyProductPage from "./src/pages/Products/BuyProductPage";
 import BidRoomPage from "./src/pages/BidRoom/BidRoomPage";
 import NationalizePage from "./src/pages/NationalizePage";
 import ProfilePage from "./src/pages/Profile/ProfilePage";
@@ -23,6 +24,7 @@ const ProductsStackScreen = () => (
     <ProductsStack.Screen name="Products" component={ProductsPage} />
     <ProductsStack.Screen name="ProductDetails" component={ProductDetailsPage} />
     <ProductsStack.Screen name="EditProduct" component={EditProductPage} />
+    <ProductsStack.Screen name="BuyProduct" component={BuyProductPage} />
     <ProductsStack.Screen name="CreateProduct" component={CreateProductPage} />
     {/* Add more screens as needed */}
   </ProductsStack.Navigator>
