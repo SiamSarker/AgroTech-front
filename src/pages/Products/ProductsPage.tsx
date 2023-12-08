@@ -14,7 +14,7 @@ const defaultUser = {
 const defaultProduct = [
   {
       "id": 2,
-      "name": "Product C",
+      "name": "Default",
       "img_path": "path/to/image.jpg",
       "available_quantity": 100,
       "unit": "kg",
@@ -26,7 +26,7 @@ const defaultProduct = [
 ];
 
 type ProductsPageProps = {
-  navigation: any; // Navigation prop for navigating between screens
+  navigation: any; 
 };
   
 const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
@@ -107,7 +107,8 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
           <TouchableOpacity
             key={index}
             style={styles.productBox}
-            onPress={() => console.log(`Product ${index + 1} pressed`)}
+            // onPress={() => console.log(`Product ${index + 1} pressed`)}
+            onPress={() => navigation.navigate("ProductDetails", { product: product })}
           >
             <View style={styles.productImageContainer}>
               <Image
@@ -125,7 +126,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
               <Button
                 title="Add to Cart"
                 color="red"
-                onPress={() => console.log(`Add to Cart pressed for Product ${index + 1}`)}
+                onPress={() => navigation.navigate("ProductDetails", { product: product })}
               />
             </View>
           </TouchableOpacity>

@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProductsPage from "./src/pages/Products/ProductsPage";
 import CreateProductPage from "./src/pages/Products/CreateProductPage";
+import ProductDetailsPage from "./src/pages/Products/ProductDetailsPage";
 import BidRoomPage from "./src/pages/BidRoom/BidRoomPage";
 import NationalizePage from "./src/pages/NationalizePage";
 import ProfilePage from "./src/pages/Profile/ProfilePage";
@@ -19,7 +20,7 @@ const ProductsStack = createStackNavigator();
 const ProductsStackScreen = () => (
   <ProductsStack.Navigator screenOptions={{ headerShown: false }}>
     <ProductsStack.Screen name="Products" component={ProductsPage} />
-    {/* <ProductsStack.Screen name="ProductDetails" component={ProductDetailsPage} /> */}
+    <ProductsStack.Screen name="ProductDetails" component={ProductDetailsPage} />
     <ProductsStack.Screen name="CreateProduct" component={CreateProductPage} />
     {/* Add more screens as needed */}
   </ProductsStack.Navigator>
