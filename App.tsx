@@ -8,6 +8,7 @@ import ProductDetailsPage from "./src/pages/Products/ProductDetailsPage";
 import EditProductPage from "./src/pages/Products/EditProductPage";
 import BuyProductPage from "./src/pages/Products/BuyProductPage";
 import BidRoomPage from "./src/pages/BidRoom/BidRoomPage";
+import CartPage from "./src/pages/Cart/CartPage";
 import NationalizePage from "./src/pages/NationalizePage";
 import ProfilePage from "./src/pages/Profile/ProfilePage";
 import LoginPage from "./src/pages/UserAccess/LoginPage";
@@ -41,7 +42,7 @@ const App = () => {
         >
           <BottomTab.Screen name="Products" component={ProductsStackScreen} />
           <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
-          <BottomTab.Screen name="Cart" component={NationalizePage} />
+          <BottomTab.Screen name="Cart" component={CartPage} />
           <BottomTab.Screen name="Profile">
             {(props) => <ProfilePage {...props} setIsAuthenticated={setIsAuthenticated} />}
           </BottomTab.Screen>
