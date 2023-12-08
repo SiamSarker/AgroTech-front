@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, StyleSheet, Alert } from "react-native";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import Axios from "axios";
 
 interface Product {
   id: number;
@@ -37,7 +38,7 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
     }
   };
 
-  const handleConfirmPurchase = () => {
+  const handleConfirmPurchase = async () => {
     if (!quantity || isNaN(parseInt(quantity, 10)) || parseInt(quantity, 10) <= 0) {
       Alert.alert("Invalid Quantity", "Please enter a valid quantity.");
       return;
@@ -46,14 +47,25 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
     const calculatedTotalPrice = parseFloat(product.price) * parseInt(quantity, 10);
     setTotalPrice(calculatedTotalPrice);
 
-    // Here you can implement the logic to perform the purchase action.
-    // For example, you can make an API call to update the product quantity,
-    // and you can display a success message.
+    try {
+      const response = await Axios.post("http://192.168.0.110:3000/cart", {
+        product_id: product.id,
+        buyer_id: 6, // Assuming buyer_id is fixed to 6
+        selected_quantity: parseInt(quantity, 10),
+        total_price: calculatedTotalPrice,
+        status: "pending",
+      });
 
-    // After a successful purchase, you can update the products list.
-    // updateProducts();
-    // Alert.alert("Purchase Successful", `You have purchased ${quantity} ${product.unit}(s) for ${calculatedTotalPrice} USD`);
-    // navigation.goBack();
+      // After a successful purchase, you can update the products list.
+      updateProducts();
+
+      // Display success message and navigate to the products page
+      Alert.alert("Purchase Confirmed", "Check status section.");
+      navigation.navigate("Products");
+    } catch (error: any) {
+      console.error("Error confirming purchase:", error.message);
+      Alert.alert("Error Confirming Purchase", "An error occurred while confirming the purchase. Please try again.");
+    }
   };
 
   return (
