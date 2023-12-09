@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Button, Image, Text, View, StyleSheet, ScrollView } from "react-native";
+import { Button, Image, Text, View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import axios from "axios";
 
 import bidRoomJson from "/Users/siamsarker/Documents/projects/AgroTech-front/assets/data/bidRoomData.json";
 
 const BidRoomPage = (props: any) => {
-    const [bidRoomData, setBidRoomData] = useState(bidRoomJson);
-
+  const [bidRoomData, setBidRoomData] = useState(bidRoomJson);
 
   return (
-    
     <ScrollView style={styles.container}>
 
-        {/* Profile Section */}
+      {/* Profile Section */}
       <View style={styles.profileContainer}>
         {/* Profile Picture (Add your actual profile picture source) */}
         <Image
@@ -35,7 +33,6 @@ const BidRoomPage = (props: any) => {
         />
       </View>
 
-
       {/* Bid Room Section */}
       <View style={styles.bidRoomContainer}>
         <Text style={styles.sectionTitle}>Bid Room</Text>
@@ -43,7 +40,11 @@ const BidRoomPage = (props: any) => {
         {/* Bid Room Boxes */}
         {/* Dynamically render bid room boxes based on the loaded data */}
         {bidRoomData.map((bidRoom, index) => (
-          <View style={styles.bidRoomBox} key={index}>
+          <TouchableOpacity
+            key={index}
+            style={styles.bidRoomBox}
+            // onPress={() => /* Handle press, e.g., navigate to bid details */}
+          >
             <View style={styles.bidRoomImageContainer}>
               {/* Bid Room Image (Add your actual bid room image source) */}
               <Image
@@ -54,19 +55,20 @@ const BidRoomPage = (props: any) => {
             </View>
             <View style={styles.bidRoomInfoContainer}>
               <Text style={styles.bidRoomInfoTextBold}>Name: {bidRoom.name}</Text>
-              <Text style={styles.bidRoomInfoTextBold}>Available Quantity: {bidRoom.quantity}</Text>
-              <Text style={styles.bidRoomInfoTextBold}>Minimum Quantity: {bidRoom.minQuantity}</Text>
-              <Text style={styles.bidRoomInfoTextBold}>Starting Price: {bidRoom.price}</Text>
+              <Text style={styles.bidRoomInfoText}>Available Quantity: {bidRoom.quantity}</Text>
+              <Text style={styles.bidRoomInfoText}>Minimum Quantity: {bidRoom.minQuantity}</Text>
+              <Text style={styles.bidRoomInfoText}>Starting Price: {bidRoom.price}</Text>
               <Text style={styles.bidRoomInfoText}>Bid Starts: {bidRoom.bidStarts}</Text>
               <Text style={styles.bidRoomInfoText}>Bid Ends: {bidRoom.bidEnds}</Text>
-              <Text style={styles.bidRoomInfoText}>Farmer Name: {bidRoom.farmerName}</Text>
-              <Button
-                title="Bid Now"
-                color="green"
-                // onPress={() => /* Bid logic */}
-              />
+              {/* <Text style={styles.bidRoomInfoText}>Farmer Name: {bidRoom.farmerName}</Text> */}
+              <TouchableOpacity
+                style={styles.bidNowButton}
+                // onPress={() => /* Handle press, e.g., bid now */}
+              >
+                <Text style={styles.bidNowButtonText}>Bid Now</Text>
+              </TouchableOpacity>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
@@ -115,6 +117,17 @@ const styles = StyleSheet.create({
   bidRoomBox: {
     flexDirection: 'row',
     marginBottom: 20,
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    elevation: 5, // Android shadow
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   bidRoomImageContainer: {
     flex: 4,
@@ -127,6 +140,7 @@ const styles = StyleSheet.create({
   bidRoomInfoContainer: {
     flex: 6,
     marginLeft: 10,
+    padding: 10,
   },
   bidRoomInfoText: {
     fontSize: 14,
@@ -135,6 +149,17 @@ const styles = StyleSheet.create({
   },
   bidRoomInfoTextBold: {
     fontWeight: 'bold',
+  },
+  bidNowButton: {
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  bidNowButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 });
 

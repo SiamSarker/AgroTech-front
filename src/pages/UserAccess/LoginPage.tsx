@@ -102,12 +102,12 @@ const LoginPage = ({ navigation, setIsAuthenticated }: any) => {
       </TouchableOpacity>
 
       {/* Home View Button */}
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.homeViewButton}
         onPress={() => setIsAuthenticated(true)}
       >
         <Text style={styles.homeViewButtonText}>Home View</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

@@ -79,7 +79,7 @@ const ProductsPage: React.FC<ProductsPageProps> = ({ navigation }) => {
   }, [navigation]);
 
   return (
-    <ScrollView style={styles.container} stickyHeaderIndices={[0]}>
+    <ScrollView style={styles.container}>
       <View style={styles.profileContainer}>
         <Image
           source={{
@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginLeft: 10,
   },
   userInfoContainer: {
     marginLeft: 10,

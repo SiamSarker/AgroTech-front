@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-    backgroundColor: "sky-blue",
+    backgroundColor: "gray",
     padding: 10,
     borderRadius: 5,
     marginTop: 10,

@@ -73,7 +73,7 @@ const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
           <View style={styles.productInfoContainer}>
             <Text style={styles.productName}>{item.product.name}</Text>
             <Text>Quantity: {item.selected_quantity}</Text>
-            <Text>Total Price: {item.total_price} USD</Text>
+            <Text>Total Price: {item.total_price} BDT</Text>
             <Text>Purchase Date: {item.created_at}</Text>
             <Text style={{ fontWeight: "bold", color: getStatusColor(item.status) }}>{item.status}</Text>
           </View>
@@ -89,7 +89,7 @@ const getStatusColor = (status: string) => {
       return "orange";
     // Add more cases for other statuses if needed
     default:
-      return "black";
+      return "#00cc00";
   }
 };
 

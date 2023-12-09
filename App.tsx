@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons for icons
 import ProductsPage from "./src/pages/Products/ProductsPage";
 import CreateProductPage from "./src/pages/Products/CreateProductPage";
 import ProductDetailsPage from "./src/pages/Products/ProductDetailsPage";
@@ -19,6 +20,7 @@ const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const ProductsStack = createStackNavigator();
+
 
 const ProductsStackScreen = () => (
   <ProductsStack.Navigator screenOptions={{ headerShown: false }}>
@@ -38,7 +40,28 @@ const App = () => {
     <NavigationContainer>
       {isAuthenticated ? (
         <BottomTab.Navigator
-          screenOptions={{ headerShown: false }}
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarIcon: ({ color, size }) => {
+              let iconName;
+
+              if (route.name === 'Products') {
+                iconName = 'ios-home';
+              } else if (route.name === 'Bid Room') {
+                iconName = 'ios-trophy';
+              } else if (route.name === 'Cart') {
+                iconName = 'ios-cart';
+              } else if (route.name === 'Profile') {
+                iconName = 'ios-person';
+              }
+
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+          tabBarOptions={{
+            activeTintColor: 'green', // Color of the active tab
+            inactiveTintColor: 'gray', // Color of the inactive tab
+          }}
         >
           <BottomTab.Screen name="Products" component={ProductsStackScreen} />
           <BottomTab.Screen name="Bid Room" component={BidRoomPage} />
