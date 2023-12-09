@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity } from "react-native";
 import Axios from "axios";
+import { useFocusEffect } from "@react-navigation/native";
 
 interface CartItem {
   id: number;
@@ -31,18 +32,20 @@ type CartPageProps = {
 const CartPage: React.FC<CartPageProps> = ({ navigation }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await Axios.get("http://192.168.0.110:3000/cart");
-        setCartItems(response.data);
-      } catch (error: any) {
-        console.error("Error fetching cart items:", error.message);
-      }
-    };
+  const fetchCartItems = async () => {
+    try {
+      const response = await Axios.get("http://192.168.0.110:3000/cart");
+      setCartItems(response.data);
+    } catch (error: any) {
+      console.error("Error fetching cart items:", error.message);
+    }
+  };
 
-    fetchCartItems();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCartItems();
+    }, [])
+  );
 
   const handleCartItemPress = (productId: number) => {
     // Navigate to the product details screen or perform other actions

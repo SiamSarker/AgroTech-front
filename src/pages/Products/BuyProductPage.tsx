@@ -60,7 +60,7 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
       updateProducts();
 
       // Display success message and navigate to the products page
-      Alert.alert("Purchase Confirmed", "Check status section.");
+      Alert.alert("Purchase Confirmed", "Check cart section.");
       navigation.navigate("Products");
     } catch (error: any) {
       console.error("Error confirming purchase:", error.message);
@@ -113,11 +113,15 @@ const BuyProductPage: React.FC<BuyProductPageProps> = ({ navigation, route }) =>
         />
       </View>
 
-      <Button
-        title="Confirm Purchase"
-        onPress={handleConfirmPurchase}
+      {/* Example of a button to navigate back to the previous screen */}
+      <TouchableOpacity
+        style={styles.confirmButton}
+        onPress={handleConfirmPurchase} // You can use other navigation functions here
         disabled={!quantity || isNaN(parseInt(quantity, 10)) || parseInt(quantity, 10) <= 0}
-      />
+      >
+        <Text style={styles.backButtonText}>CONFIRM PURCHASE</Text>
+      </TouchableOpacity>
+
 
       {/* Example of a button to navigate back to the previous screen */}
       <TouchableOpacity
@@ -190,6 +194,17 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   backButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  confirmButton: {
+    backgroundColor: "#00cc00",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignSelf: "center",
+  },
+  confirmButtonText: {
     color: "#fff",
     fontWeight: "bold",
   },
